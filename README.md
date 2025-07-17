@@ -41,6 +41,8 @@ dehydrated_update | Update dehydrated sources on ansible run | yes
 dehydrated_version | Which version to check out from github | HEAD
 dehydrated_challengetype | Challenge to use (http-01, dns-01) | http-01
 dehydrated_use_lexicon | Enable the use of lexicon | yes if dehydrated_challengetype == dns-01 else no
+dehydrated_use_os_lexicon | Use OS provided lexicon instead of pip provided one | no
+dehydrated_os_lexicon_package | Name of lexicon package | python3-lexicon if ansible is running on python3, otherwise python-lexicon
 dehydrated_lexicon_dns | Options for running lexicon | {}
 dehydrated_hooks | Dict with hook-names for which to add scripts |
 dehydrated_hook_scripts | Add additional scripts to hooks-Directory | []
@@ -54,7 +56,7 @@ dehydrated_run_on_changes | If dehydrated should run if the list of domains chan
 dehydrated_systemd_timer_onfailure | If set, an OnFailure-Directive will be added to the systemd unit |
 dehydrated_cert_config | Override configuration for certificates | []
 dehydrated_repo_url | Specify URL to git repository of dehydrated | https://github.com/dehydrated-io/dehydrated.git
-dehydrated_install_pip | Whether pip will be installed when using lexicon | yes
+dehydrated_install_pip | Whether pip will be installed when using lexicon | yes if dehydrated_use_os_lexicon is false, no otherwise
 dehydrated_pip_package | Name of pip package | python3-pip if ansible is running on python3, otherwise python-pip
 dehydrated_pip_executable | Name of pip executable to use | autodetected by pip module
 
@@ -68,7 +70,7 @@ Alternatively, if you've already setup `dehydrated` once and want to use the sam
 
 ## Using dns-01 challenges
 
-When `dehydrated_challengetype` is set to `dns-01`, this role will automatically install `lexicon` from python pip to be able to set and remove the necessary DNS records needed to obtain an SSL certificate.
+When `dehydrated_challengetype` is set to `dns-01`, this role will automatically install `lexicon` from python pip or OS repositories to be able to set and remove the necessary DNS records needed to obtain an SSL certificate.
 
 `lexicon` uses environment variables for username/token and password/secret; see examples below.
 

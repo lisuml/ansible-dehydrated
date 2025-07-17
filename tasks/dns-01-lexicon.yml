@@ -4,10 +4,16 @@
     name: "{{ dehydrated_pip_package }}"
   when: dehydrated_install_pip
 
-- name: Install dns-lexicon
+- name: Install dns-lexicon (pip)
   pip:
     name: dns-lexicon
     executable: "{{ dehydrated_pip_executable|default(omit) }}"
+  when: not dehydrated_use_os_lexicon
+
+- name: Install dns-lexicon (os)
+  package:
+    name: "{{ dehydrated_os_lexicon_package }}"
+  when: dehydrated_use_os_lexicon
 
 - name: Copy hook script
   copy:
